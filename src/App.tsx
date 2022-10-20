@@ -1,39 +1,47 @@
-import { useState, useEffect } from "react";
-import { listen } from '@tauri-apps/api/event';
-import { invoke } from "@tauri-apps/api/tauri";
+import { useState, useEffect, useRef } from "react";
+import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import "./App.css";
-import { NotificationFromBack } from "notify_from_back";
-import { AudioInfo, AllAudioInfo } from "auio_type";
+import { UpdateNotifierB2F } from "@/notify_from_back_type";
+import { AudioInfo, AllAudioInfo } from "@/audio_type";
+import AudioCard from "@/components/AudioCard";
+import List from "@mui/material/List";
+import { invoke_query } from "@/query";
 
 function App() {
   const [allAudioInfo, setAllAudioInfo] = useState<AllAudioInfo | null>(null);
+  const initializeAsyncFn = useRef<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
-    (async () => {
-      const new_audio_info = await invoke<AllAudioInfo>("query_all_audio_info");
-      setAllAudioInfo(new_audio_info);
+    if (initializeAsyncFn.current !== null) {
+      return;
+    }
 
-      listen<NotificationFromBack>("audio_state_change", event => {
-        invoke("query_all_audio_info", { notification: event.payload});
+    initializeAsyncFn.current = async () => {
+      await listen<UpdateNotifierB2F>("audio_state_change", (event) => {
+        setAllAudioInfo({ ...event.payload.allAudioInfo });
       });
-      
-      listen<AllAudioInfo>("response_for_request", event => {
-        setAllAudioInfo(event.payload);
-      });
+      await invoke_query({ kind: "QAudioDict" });
 
       console.log("initialized");
-    })();
+    };
+    initializeAsyncFn.current();
   }, []);
 
-  return (
-    allAudioInfo == null ? <></> : <>
-      Default: {allAudioInfo.default} <br />
-      {allAudioInfo.audios.map((audio_info: AudioInfo) => {
-        return <div key={audio_info.id}>
-          {audio_info.id == allAudioInfo.default ? "*" : ""}
-           {audio_info.id}: {audio_info.name} volume: {audio_info.volume} mute: {audio_info.muted ? "○" : "☓"}
-        </div>;
-      })}
+  return allAudioInfo == null ? (
+    <>Loading...</>
+  ) : (
+    <>
+      <List>
+        {allAudioInfo.audios.map((audio_info: AudioInfo) => {
+          return (
+            <AudioCard
+              is_default={audio_info.id == allAudioInfo.default}
+              key={audio_info.id}
+              {...audio_info}
+            />
+          );
+        })}
+      </List>
     </>
   );
 }

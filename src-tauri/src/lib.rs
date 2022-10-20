@@ -1,4 +1,5 @@
 mod device_changer;
+pub mod log;
 pub mod notifier;
 
 use anyhow::Result;
