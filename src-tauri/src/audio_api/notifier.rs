@@ -248,32 +248,40 @@ impl NotificationCallbacks {
         }
     }
 
-    pub(crate) unsafe fn register_to_enumerator(
+    pub(crate) fn register_to_enumerator(
         &self,
         device_enumerator: &IMMDeviceEnumerator,
     ) -> Result<()> {
-        device_enumerator.RegisterEndpointNotificationCallback(&self.notification_client)?;
+        unsafe {
+            device_enumerator.RegisterEndpointNotificationCallback(&self.notification_client)?;
+        }
 
         Ok(())
     }
 
-    pub(crate) unsafe fn unregister_to_enumerator(
+    pub(crate) fn unregister_to_enumerator(
         &self,
         device_enumerator: &IMMDeviceEnumerator,
     ) -> Result<()> {
-        device_enumerator.UnregisterEndpointNotificationCallback(&self.notification_client)?;
+        unsafe {
+            device_enumerator.UnregisterEndpointNotificationCallback(&self.notification_client)?;
+        }
 
         Ok(())
     }
 
-    pub(crate) unsafe fn register_to_volume(&self, volume: &IAudioEndpointVolume) -> Result<()> {
-        volume.RegisterControlChangeNotify(&self.volume_callback)?;
+    pub(crate) fn register_to_volume(&self, volume: &IAudioEndpointVolume) -> Result<()> {
+        unsafe {
+            volume.RegisterControlChangeNotify(&self.volume_callback)?;
+        }
 
         Ok(())
     }
 
-    pub(crate) unsafe fn unregister_to_volume(&self, volume: &IAudioEndpointVolume) -> Result<()> {
-        volume.UnregisterControlChangeNotify(&self.volume_callback)?;
+    pub(crate) fn unregister_to_volume(&self, volume: &IAudioEndpointVolume) -> Result<()> {
+        unsafe {
+            volume.UnregisterControlChangeNotify(&self.volume_callback)?;
+        }
 
         Ok(())
     }

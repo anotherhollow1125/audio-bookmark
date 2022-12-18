@@ -40,34 +40,37 @@ const CLSID_PolicyConfigClient: GUID = GUID {
 pub(crate) struct PolicyConfig(IPolicyConfig);
 
 impl PolicyConfig {
-    pub(crate) unsafe fn new() -> Result<Self> {
-        let policy_config = CoCreateInstance(&CLSID_PolicyConfigClient, None, CLSCTX_ALL)?;
+    pub(crate) fn new() -> Result<Self> {
+        let policy_config =
+            unsafe { CoCreateInstance(&CLSID_PolicyConfigClient, None, CLSCTX_ALL)? };
         Ok(PolicyConfig(policy_config))
     }
 
-    pub(crate) unsafe fn set_default_endpoint(&self, device_id: &str) -> Result<()> {
+    pub(crate) fn set_default_endpoint(&self, device_id: &str) -> Result<()> {
         let device_id: HSTRING = device_id.into();
         let device_id: PCWSTR = (&device_id).into();
 
-        let hr = self
-            .0
-            .SetDefaultEndpoint(device_id.as_ptr(), eConsole.0 as _);
-        if hr.0 != 0 {
-            return Err(anyhow!("Error with 0x{:X}", hr.0));
-        }
+        unsafe {
+            let hr = self
+                .0
+                .SetDefaultEndpoint(device_id.as_ptr(), eConsole.0 as _);
+            if hr.0 != 0 {
+                return Err(anyhow!("Error with 0x{:X}", hr.0));
+            }
 
-        let hr = self
-            .0
-            .SetDefaultEndpoint(device_id.as_ptr(), eMultimedia.0 as _);
-        if hr.0 != 0 {
-            return Err(anyhow!("Error with 0x{:X}", hr.0));
-        }
+            let hr = self
+                .0
+                .SetDefaultEndpoint(device_id.as_ptr(), eMultimedia.0 as _);
+            if hr.0 != 0 {
+                return Err(anyhow!("Error with 0x{:X}", hr.0));
+            }
 
-        let hr = self
-            .0
-            .SetDefaultEndpoint(device_id.as_ptr(), eCommunications.0 as _);
-        if hr.0 != 0 {
-            return Err(anyhow!("Error with 0x{:X}", hr.0));
+            let hr = self
+                .0
+                .SetDefaultEndpoint(device_id.as_ptr(), eCommunications.0 as _);
+            if hr.0 != 0 {
+                return Err(anyhow!("Error with 0x{:X}", hr.0));
+            }
         }
 
         Ok(())
