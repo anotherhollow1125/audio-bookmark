@@ -13,9 +13,12 @@
     "allowlist": {
       "fs": {
         "all": true,
-        "scope": ["$APPCONFIG/*"]
+        "scope": ["$APPCONFIG", "$APPCONFIG/*"]
       },
       "path": {
+        "all": true
+      },
+      "globalShortcut": {
         "all": true
       }
     },

@@ -7,7 +7,9 @@ import {
   createDir,
   BaseDirectory,
 } from "@tauri-apps/api/fs";
-// import { configDir } from '@tauri-apps/api/path';
+import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
+import { invoke_query } from "@/query";
+// import { appConfigDir } from "@tauri-apps/api/path";
 
 export interface Profile {
   name: string;
@@ -66,9 +68,36 @@ const useProfileBook = (): useProfileBookRes => {
     }
 
     (async () => {
+      // file save
+      const ext = await exists("", { dir: BaseDirectory.AppConfig });
+      if (!ext) {
+        await createDir("", { dir: BaseDirectory.AppConfig });
+      }
+
       await writeTextFile("profiles.json", JSON.stringify(profileBook), {
         dir: BaseDirectory.AppConfig,
       });
+
+      // register shortcut
+      await unregisterAll();
+      const profile = profileBook.profiles.find(
+        (p) => p.name == profileBook.activated_profile
+      );
+      if (profile == undefined) {
+        return;
+      }
+
+      for (const audio of profile.audios) {
+        if (audio.shortcut == "") {
+          continue;
+        }
+
+        const shortcut = audio.shortcut;
+        const id = audio.id;
+        await register(shortcut, async () => {
+          await invoke_query({ kind: "QDefaultAudioChange", id });
+        });
+      }
     })();
   }, [profileBook]);
 
@@ -160,6 +189,7 @@ const useProfileBook = (): useProfileBookRes => {
     }
 
     target_profile.name = newName;
+    profileBook.activated_profile = newName;
     setProfileBook({ ...profileBook });
 
     return true;

@@ -8,7 +8,7 @@ use audio_bookmark::{
     audio_backend::{backend_prepare, backend_tauri_setup, BackendPrepareRet, Query},
     errors::*,
     log::env_logger_init,
-    menu::{main_window_menu, on_main_menu_event},
+    // menu::{main_window_menu, on_main_menu_event},
 };
 use tokio::sync::mpsc::Sender;
 
@@ -35,11 +35,11 @@ async fn main() -> Result<()> {
         frontend_update_rx,
     } = backend_prepare().await?;
 
-    let menu = main_window_menu();
+    // let menu = main_window_menu();
 
     tauri::Builder::default()
-        .menu(menu)
-        .on_menu_event(on_main_menu_event)
+        // .menu(menu)
+        // .on_menu_event(on_main_menu_event)
         .manage(query_tx)
         .invoke_handler(tauri::generate_handler![query])
         .setup(|app| {

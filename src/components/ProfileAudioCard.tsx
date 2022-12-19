@@ -16,6 +16,7 @@ interface AudioProps {
   muted: boolean;
   real_name: string;
   nick_name: string;
+  shortcut: string;
   setting_callback: () => void;
 }
 
@@ -27,6 +28,16 @@ function ProfileAudioCard(props: AudioProps) {
       await invoke_query({ kind: "QDefaultAudioChange", id: props.id });
     }
   };
+
+  const shortcut_elm =
+    props.shortcut == "" ? (
+      <></>
+    ) : (
+      <>
+        Shortcut: {props.shortcut}
+        <br />
+      </>
+    );
 
   const sub_name =
     props.real_name == props.nick_name ? (
@@ -48,6 +59,7 @@ function ProfileAudioCard(props: AudioProps) {
           primary={props.nick_name}
           secondary={
             <>
+              {shortcut_elm}
               {sub_name}
               {getNeatID(props.id)}
             </>
