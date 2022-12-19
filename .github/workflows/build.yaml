@@ -1,6 +1,9 @@
 name: Release
 on:
   push:
+    branches:
+      - main
+      - fordeploy
     tags:
       - "v*"
   workflow_dispatch:
