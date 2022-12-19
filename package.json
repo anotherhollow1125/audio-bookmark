@@ -16,7 +16,8 @@
     "@mui/material": "^5.10.9",
     "@tauri-apps/api": "^1.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-tabs": "^6.0.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.1.0",

@@ -1,47 +1,70 @@
-import { useState, useEffect, useRef } from "react";
-import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import "./App.css";
-import { UpdateNotifierB2F } from "@/notify_from_back_type";
-import { AudioInfo, AllAudioInfo } from "@/audio_type";
-import AudioCard from "@/components/AudioCard";
-import List from "@mui/material/List";
-import { invoke_query } from "@/query";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import All from "@/components/All";
+import ProfileTab from "@/components/ProfileTab";
+import useAllAudioInfo from "./all_audio_info_hook";
+import useProfileBook from "./profiles_hook";
 
 function App() {
-  const [allAudioInfo, setAllAudioInfo] = useState<AllAudioInfo | null>(null);
-  const initializeAsyncFn = useRef<(() => Promise<void>) | null>(null);
+  const allAudioInfo = useAllAudioInfo();
+  const [
+    profileBook,
+    { newProfile, modProfile, delProfile, activateProfile, renameProfile },
+  ] = useProfileBook();
 
-  useEffect(() => {
-    if (initializeAsyncFn.current !== null) {
-      return;
+  const onSelect = (index: number) => {
+    const plus_index = profileBook ? profileBook.profiles.length + 1 : 1;
+    if (index == plus_index) {
+      newProfile();
+    } else if (index == 0) {
+      activateProfile(null);
+    } else {
+      const ind = index - 1;
+      const profile = profileBook?.profiles[ind] ?? null;
+      activateProfile(profile?.name ?? null);
     }
+  };
 
-    initializeAsyncFn.current = async () => {
-      await listen<UpdateNotifierB2F>("audio_state_change", (event) => {
-        setAllAudioInfo({ ...event.payload.allAudioInfo });
-      });
-      await invoke_query({ kind: "QAudioDict" });
+  const rawSelectedIndex = profileBook
+    ? profileBook.profiles.findIndex(
+        (p) => p.name == profileBook.activated_profile
+      )
+    : -1;
+  const selectedIndex = rawSelectedIndex == -1 ? 0 : rawSelectedIndex + 1;
 
-      console.log("initialized");
-    };
-    initializeAsyncFn.current();
-  }, []);
-
-  return allAudioInfo == null ? (
+  return allAudioInfo == null || profileBook == null ? (
     <>Loading...</>
   ) : (
     <>
-      <List>
-        {allAudioInfo.audios.map((audio_info: AudioInfo) => {
+      <>Activated: {profileBook?.activated_profile ?? "All Audios"}</>
+      <Tabs selectedIndex={selectedIndex} onSelect={onSelect}>
+        <TabList>
+          <Tab key="/__ALL/">All Audios</Tab>
+          {(profileBook?.profiles ?? []).map((profile) => {
+            return <Tab key={profile.name}>{profile.name}</Tab>;
+          })}
+          <Tab key="/__NEW/">+</Tab>
+        </TabList>
+
+        <TabPanel key="/__ALL/">
+          <All allAudioInfo={allAudioInfo}></All>
+        </TabPanel>
+        {(profileBook?.profiles ?? []).map((profile) => {
           return (
-            <AudioCard
-              is_default={audio_info.id == allAudioInfo.default}
-              key={audio_info.id}
-              {...audio_info}
-            />
+            <TabPanel key={profile.name}>
+              <ProfileTab
+                profile={profile}
+                allAudioInfo={allAudioInfo}
+                modProfile={modProfile}
+                delProfile={delProfile}
+                renameProfile={renameProfile}
+              />
+            </TabPanel>
           );
         })}
-      </List>
+        <TabPanel key="/__NEW/"></TabPanel>
+      </Tabs>
     </>
   );
 }

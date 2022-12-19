@@ -1,4 +1,4 @@
-import { AllAudioInfo } from "@/audio_type";
+import { AllAudioInfoFromBack } from "@/audio_type";
 
 export type DefaultDeviceChanged = {
   typ: "DefaultDeviceChanged";
@@ -34,8 +34,14 @@ export type VolumeChanged = {
   muted: boolean;
 };
 
-export type NotificationFromBack = DefaultDeviceChanged | DeviceAdded | DeviceRemoved | DeviceStateChanged | PropertyValueChanged | VolumeChanged;
+export type NotificationFromBack =
+  | DefaultDeviceChanged
+  | DeviceAdded
+  | DeviceRemoved
+  | DeviceStateChanged
+  | PropertyValueChanged
+  | VolumeChanged;
 export type UpdateNotifierB2F = {
-  allAudioInfo: AllAudioInfo;
+  allAudioInfo: AllAudioInfoFromBack;
   notification: NotificationFromBack | null;
 };
