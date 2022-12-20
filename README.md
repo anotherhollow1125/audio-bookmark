@@ -12,6 +12,7 @@ audio-bookmarkはお気に入りの出力オーディオに別名をつけ管理
 - ついでに音量調節とミュートもできます
 
 リリースページ: https://github.com/anotherhollow1125/audio-bookmark/releases
+
 ダウンロード: https://github.com/anotherhollow1125/audio-bookmark/releases/download/v0.0.0/audio-bookmark_0.0.0_x64_en-US.msi
 
 ## 使い方
