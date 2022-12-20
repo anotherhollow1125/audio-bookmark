@@ -1,5 +1,3 @@
-
-
 # audio-bookmark
 
 ![audio-bookmark demo](.github/audio_bookmark_caption.gif)
@@ -12,6 +10,9 @@ audio-bookmarkはお気に入りの出力オーディオに別名をつけ管理
 - プロファイルでオーディオにニックネームをつけられます
 - ショートカットキー(ホットキー)を設定できます
 - ついでに音量調節とミュートもできます
+
+リリースページ: https://github.com/anotherhollow1125/audio-bookmark/releases
+ダウンロード: https://github.com/anotherhollow1125/audio-bookmark/releases/download/v0.0.0/audio-bookmark_0.0.0_x64_en-US.msi
 
 ## 使い方
 
