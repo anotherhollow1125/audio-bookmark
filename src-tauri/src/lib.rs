@@ -3,3 +3,4 @@ pub mod audio_backend;
 pub mod errors;
 pub mod log;
 pub mod menu;
+pub mod systray;
