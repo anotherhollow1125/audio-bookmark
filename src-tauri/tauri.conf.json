@@ -20,6 +20,9 @@
       },
       "globalShortcut": {
         "all": true
+      },
+      "window": {
+        "all": true
       }
     },
     "bundle": {
@@ -68,7 +71,9 @@
         "height": 600,
         "resizable": false,
         "title": "audio-bookmark",
-        "width": 800
+        "width": 800,
+        "skipTaskbar": true,
+        "decorations": false
       }
     ],
     "systemTray": {

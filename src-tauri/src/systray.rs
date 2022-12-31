@@ -22,8 +22,10 @@ pub fn handle_systemtray_events<R: Runtime>(app: &AppHandle<R>, event: SystemTra
             }
         }
         SystemTrayEvent::MenuItemClick { ref id, .. } if id == "quit" => {
+            /*
             let tray_handle = app.tray_handle_by_id("main").unwrap();
             tray_handle.destroy().unwrap();
+            */
             app.exit(0);
         }
         _ => {}

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { getNeatID } from "@/util";
 import Box from "@mui/material/Box";
-import { forwardRef } from "react";
+import { forwardRef, ForwardedRef } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 
 interface EditModalProps {
@@ -26,7 +26,7 @@ const style = {
   p: 4,
 };
 
-function EditAudioModalFunc(props: EditModalProps) {
+function EditAudioModalFunc(props: EditModalProps, ref: ForwardedRef<HTMLDivElement>) {
   const [nickName, setNickName] = useState(props.nick_name);
   const [shortcut, setShortcut] = useState(props.shortcut);
 

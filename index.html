@@ -8,6 +8,18 @@
   </head>
 
   <body>
+    <div id="title">Audio Bookmark</div>
+    <div data-tauri-drag-region class="titlebar">
+      <div class="titlebar-button" id="titlebar-minimize">
+        <img
+          src="/src/assets/mdi_window-minimize.svg"
+          alt="minimize"
+        />
+      </div>
+      <div class="titlebar-button" id="titlebar-close">
+        <img src="/src/assets/mdi_close.svg" alt="close" />
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
