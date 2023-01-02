@@ -9,6 +9,7 @@ import {
 } from "@tauri-apps/api/fs";
 import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
 import { invoke_query } from "@/query";
+import { showNotification } from "./components/notification";
 // import { appConfigDir } from "@tauri-apps/api/path";
 
 export interface Profile {
@@ -94,8 +95,13 @@ const useProfileBook = (): useProfileBookRes => {
 
         const shortcut = audio.shortcut;
         const id = audio.id;
+        const name = audio.nick_name != "" ? audio.nick_name : audio.name;
         await register(shortcut, async () => {
           await invoke_query({ kind: "QDefaultAudioChange", id });
+          setTimeout(async () => {
+            await showNotification(name, `Changed by ${shortcut}`);
+            await invoke_query({ kind: "QBeep" });
+          }, 100);
         });
       }
     })();
