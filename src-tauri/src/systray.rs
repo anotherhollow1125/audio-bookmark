@@ -1,10 +1,12 @@
 use tauri::{
-    AppHandle, CustomMenuItem, Manager, Runtime, SystemTray, SystemTrayEvent, SystemTrayMenu,
+    api::dialog::message, AppHandle, CustomMenuItem, Manager, Runtime, SystemTray, SystemTrayEvent,
+    SystemTrayMenu,
 };
 
 pub fn systray_setup() -> SystemTray {
     let quit = CustomMenuItem::new("quit", "Quit");
-    let tray_menu = SystemTrayMenu::new().add_item(quit);
+    let version = CustomMenuItem::new("version", "Version");
+    let tray_menu = SystemTrayMenu::new().add_item(quit).add_item(version);
     let system_tray = SystemTray::new().with_menu(tray_menu);
 
     system_tray
@@ -22,11 +24,15 @@ pub fn handle_systemtray_events<R: Runtime>(app: &AppHandle<R>, event: SystemTra
             }
         }
         SystemTrayEvent::MenuItemClick { ref id, .. } if id == "quit" => {
-            /*
-            let tray_handle = app.tray_handle_by_id("main").unwrap();
-            tray_handle.destroy().unwrap();
-            */
             app.exit(0);
+        }
+        SystemTrayEvent::MenuItemClick { ref id, .. } if id == "version" => {
+            // show version
+            message(
+                Some(&app.get_window("main").unwrap()),
+                "Version",
+                format!("audio-bookmark\nVer. {}", env!("CARGO_PKG_VERSION")).as_str(),
+            );
         }
         _ => {}
     }
