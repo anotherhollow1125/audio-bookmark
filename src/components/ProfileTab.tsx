@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import EditProfileAudios from "./EditProfileAudios";
 import TextField from "@mui/material/TextField";
 import ProfileRemoveDialog from "@/components/ProfileRemoveDialog";
-import InvalidProfileNameSnackbar from "@/components/InvalidProfileNameSnackbar";
+import InvalidSnackbar from "@/components/InvalidSnackbars";
 
 interface ProfileProps {
   profile: Profile;
@@ -146,7 +146,8 @@ function ProfileTab(props: ProfileProps) {
         delProfile={props.delProfile}
       />
 
-      <InvalidProfileNameSnackbar
+      <InvalidSnackbar
+        message="Profile name is invalid."
         open={InvalidProfileNameSnackbarOpen}
         close={() => setInvalidProfileNameSnackbarOpen(false)}
       />

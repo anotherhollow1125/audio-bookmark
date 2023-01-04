@@ -1,4 +1,4 @@
-import { useState, forwardRef } from "react";
+import { forwardRef } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
@@ -9,20 +9,22 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface InvalidProfileNameSnackbarProps {
+interface InvalidSnackbarProps {
+  message: string;
   open: boolean;
   close: () => void;
 }
 
-export default function InvalidProfileNameSnackbar({
+export default function InvalidSnackbar({
+  message,
   open,
   close,
-}: InvalidProfileNameSnackbarProps) {
+}: InvalidSnackbarProps) {
   return (
     <>
       <Snackbar open={open} autoHideDuration={2000} onClose={(_) => close()}>
         <Alert onClose={(_) => close()} severity="error" sx={{ width: "100%" }}>
-          Profile name is invalid.
+          {message}
         </Alert>
       </Snackbar>
     </>

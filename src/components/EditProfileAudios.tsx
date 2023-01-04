@@ -1,8 +1,7 @@
 import { useState, Dispatch, SetStateAction } from "react";
-import { CustomAudioInfo, AudioInfo, AllAudioInfoFromBack } from "@/audio_type";
+import { CustomAudioInfo, AllAudioInfoFromBack } from "@/audio_type";
 import EditProfileAudioCard from "@/components/EditProfileAudioCard";
 import List from "@mui/material/List";
-import { Profile } from "@/profiles_hook";
 import Divider from "@mui/material/Divider";
 
 interface EditProfileProps {
