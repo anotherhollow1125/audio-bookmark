@@ -16,7 +16,7 @@ tauri-build = { version = "1.2.1", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2.2", features = ["fs-all", "global-shortcut-all", "notification-all", "path-all", "system-tray", "window-all"] }
+tauri = { version = "1.2.2", features = ["app-all", "fs-all", "global-shortcut-all", "notification-all", "path-all", "process-exit", "system-tray", "window-all"] }
 anyhow = "1.0.65"
 thiserror = "1.0.37"
 log = "0.4.17"
@@ -39,6 +39,10 @@ features = [
     "implement",
     "interface",
 ]
+
+[dependencies.tauri-plugin-autostart]
+git = "https://github.com/tauri-apps/tauri-plugin-autostart"
+rev = "031efac82d592774c986e94c6258a3dc11f54d81"
 
 [features]
 # by default Tauri runs in production mode

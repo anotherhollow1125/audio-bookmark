@@ -11,6 +11,9 @@
   },
   "tauri": {
     "allowlist": {
+      "app": {
+        "all": true
+      },
       "fs": {
         "all": true,
         "scope": ["$APPCONFIG", "$APPCONFIG/*"]
@@ -26,6 +29,9 @@
       },
       "notification": {
         "all": true
+      },
+      "process": {
+        "exit": true
       }
     },
     "bundle": {
@@ -78,6 +84,18 @@
         "skipTaskbar": true,
         "decorations": false,
         "alwaysOnTop": true
+      },
+      {
+        "label": "config",
+        "fullscreen": false,
+        "height": 300,
+        "resizable": false,
+        "title": "audio-bookmark",
+        "width": 400,
+        "skipTaskbar": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "url": "config.html"
       }
     ],
     "systemTray": {

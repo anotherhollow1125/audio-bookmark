@@ -11,6 +11,8 @@ use audio_bookmark::{
     systray::{handle_systemtray_events, systray_setup},
     // menu::{main_window_menu, on_main_menu_event},
 };
+use tauri::Manager;
+use tauri_plugin_autostart::MacosLauncher;
 use tokio::sync::mpsc::Sender;
 
 #[tauri::command]
@@ -49,9 +51,14 @@ async fn main() -> Result<()> {
         .invoke_handler(tauri::generate_handler![query])
         .setup(|app| {
             let _notification_thread = backend_tauri_setup(app, frontend_update_rx);
+            app.handle().get_window("config").unwrap().hide().unwrap();
 
             Ok(())
         })
+        .plugin(tauri_plugin_autostart::init(
+            MacosLauncher::LaunchAgent,
+            None,
+        ))
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 
