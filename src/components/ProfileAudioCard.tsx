@@ -2,7 +2,7 @@ import { getNeatID } from "@/util";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
+import Radio from "@mui/material/Radio";
 import ListItem from "@mui/material/ListItem";
 import { invoke_query } from "@/query";
 import SliderPart from "@/components/SliderPart";
@@ -53,7 +53,7 @@ function ProfileAudioCard(props: AudioProps) {
     <ListItem>
       <ListItemButton onClick={cardClick}>
         <ListItemIcon>
-          <Checkbox edge="start" checked={props.is_default} />
+          <Radio checked={props.is_default} />
         </ListItemIcon>
         <ListItemText
           primary={props.nick_name}
