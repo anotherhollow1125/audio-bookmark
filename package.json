@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.0",
     "@tauri-apps/api": "^1.2.0",
-    "@tauri-apps/tauri-plugin-autostart": "git+ssh://git@github.com:tauri-apps/tauri-plugin-autostart.git#dev",
+    "@tauri-apps/tauri-plugin-autostart": "git+https://github.com/tauri-apps/tauri-plugin-autostart.git#dev",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-tabs": "^6.0.0"
