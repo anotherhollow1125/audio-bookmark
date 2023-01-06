@@ -1,11 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: '@', replacement: '/src' }]
+    alias: [{ find: "@", replacement: "/src" }],
   },
 
   // Vite optons tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -26,5 +27,11 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? "esbuild" : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
+    rollupOptions: {
+      input: {
+        index: resolve(__dirname, "index.html"),
+        config: resolve(__dirname, "config.html"),
+      },
+    },
   },
 });
