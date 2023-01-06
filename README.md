@@ -2,6 +2,8 @@
 
 ![audio-bookmark demo](.github/audio_bookmark_caption.gif)
 
+※ イメージは開発中のものです。
+
 [![Release](https://github.com/anotherhollow1125/audio-bookmark/actions/workflows/build.yaml/badge.svg)](https://github.com/anotherhollow1125/audio-bookmark/actions/workflows/build.yaml)
 
 audio-bookmarkはお気に入りの出力オーディオに別名をつけ管理できるユーティリティアプリです！
@@ -39,3 +41,14 @@ All Audioタブの右側にある`+`を押すことで、お気に入りのオ�
 プロファイル名の変更と、プロファイルに含めるオーディオは右側の :pencil: から編集できます。
 
 ![Profile Edit](.github/favEdit.png)
+
+### タスクトレイアイコンとStart Up
+
+タスクトレイアイコンを左クリックすると表示・非表示を切り替えられます。
+
+右クリックでコンテキストメニューが開きます。
+
+- Config: 設定画面を開きます。
+    - Start Up: Windows起動時に本アプリを自動起動するかを設定できます。
+    - Ver: 本アプリのバージョンが記載されています。
+- Quit: 本アプリを終了します。

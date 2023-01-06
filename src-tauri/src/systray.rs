@@ -4,8 +4,8 @@ use tauri::{
 
 pub fn systray_setup() -> SystemTray {
     let quit = CustomMenuItem::new("quit", "Quit");
-    let version = CustomMenuItem::new("config", "Config");
-    let tray_menu = SystemTrayMenu::new().add_item(quit).add_item(version);
+    let config = CustomMenuItem::new("config", "Config");
+    let tray_menu = SystemTrayMenu::new().add_item(config).add_item(quit);
     let system_tray = SystemTray::new().with_menu(tray_menu);
 
     system_tray
